@@ -4,7 +4,7 @@ import { CreateUserInputValidation } from "@/lib/validations";
 
 export async function POST(req: Request) {
   try {
-    let body;
+    let body: any;
     
     // Safely parse JSON body
     try {
