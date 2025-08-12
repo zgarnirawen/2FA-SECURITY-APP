@@ -5,7 +5,7 @@ import { CreateUserInputValidation } from "@/lib/validations";
 interface RegisterBody {
   email: string;
   password: string;
-  name?: string;
+  full_name: string; // Changé de 'name' vers 'full_name' pour correspondre au schéma
   [key: string]: any;
 }
 
@@ -25,7 +25,7 @@ export async function POST(req: Request): Promise<Response> {
     console.log("Registration request body:", {
       email: body?.email ? "***@" + body.email.split("@")[1] : "missing",
       password: body?.password ? "provided" : "missing",
-      name: body?.name ? "provided" : "missing"
+      full_name: body?.full_name ? "provided" : "missing"
     });
 
     // Check body structure
@@ -34,7 +34,7 @@ export async function POST(req: Request): Promise<Response> {
     }
 
     // Required fields
-    const requiredFields = ["email", "password"];
+    const requiredFields = ["email", "password", "full_name"];
     const missingFields = requiredFields.filter(field => !body[field]);
 
     if (missingFields.length > 0) {
@@ -53,7 +53,7 @@ export async function POST(req: Request): Promise<Response> {
       return error_response(`Input validation failed: ${errorMessages}`, 400, inputValidation.error.format());
     }
 
-    const { email, password, name } = body;
+    const { email, password, full_name } = body;
 
     // Password strength check
     if (password.length < 8) {
@@ -66,11 +66,11 @@ export async function POST(req: Request): Promise<Response> {
       return error_response("Invalid email format", 400);
     }
 
-    // Prepare sanitized data with full_name (as required by your type)
+    // Prepare sanitized data
     const sanitizedData = {
       email: email.toLowerCase().trim(),
-      password: password, // Don't trim passwords
-      full_name: (name || "").trim() // Match type requirement
+      password: password, // Ne pas trim le mot de passe
+      full_name: full_name.trim()
     };
 
     // Create user
@@ -80,11 +80,11 @@ export async function POST(req: Request): Promise<Response> {
       return error_response("Failed to create user", 500);
     }
 
-    // Safe response
+    // Safe response data
     const safeUserData = {
       id: user.id,
       email: user.email,
-      name: user.name || user.full_name,
+      full_name: user.full_name,
       createdAt: user.createdAt
     };
 
@@ -145,3 +145,4 @@ export async function OPTIONS(req: Request): Promise<Response> {
     }
   });
 }
+

@@ -44,7 +44,7 @@ export async function loginUser(email: string, password: string) {
 
     if (validRecoveryCode) {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
-        expiresIn: "3h",
+        expiresIn: "1d",
       });
 
       return { token };
@@ -60,7 +60,7 @@ export async function loginUser(email: string, password: string) {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
-      expiresIn: "3h",
+      expiresIn: "1d",
     });
 
     return { token };

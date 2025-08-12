@@ -9,7 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     if (localStorage.getItem("TOKEN")) {
-      router.push("/home");
+      router.push("home");
     }
   }, []);
 
