@@ -1,202 +1,188 @@
-# Application de Récupération - Next.js
+# Recovery Application - Next.js
 
-Une application de récupération sécurisée avec authentification à deux facteurs (2FA) et codes de récupération.
+A secure recovery application built with Next.js, featuring two-factor authentication (2FA) and recovery codes for enhanced account protection.
 
-## 🚀 Fonctionnalités
+---
 
-- **Authentification sécurisée** : Inscription et connexion avec JWT
-- **Authentification à deux facteurs (2FA)** : Utilisation de TOTP avec Google Authenticator
-- **Codes de récupération** : 16 codes uniques pour accès d'urgence
-- **Interface moderne** : UI basée sur shadcn/ui et Tailwind CSS
-- **Validation robuste** : Validation des données avec Zod
-- **Base de données MongoDB** : Stockage sécurisé avec Mongoose
+## Overview
 
-## 📋 Prérequis
+This application provides a robust authentication system combining JWT-based login, TOTP-based two-factor authentication, and emergency recovery codes. It is designed with security best practices, modern UI components, and scalable architecture.
 
-- Node.js 18+ 
-- MongoDB (local ou cloud)
-- npm ou yarn
+---
 
-## 🛠️ Installation
+## Features
 
-1. **Cloner le projet**
-   ```bash
-   git clone <url-du-repo>
-   cd my-recovery-app
-   ```
+* Secure authentication (register and login with JWT)
+* Two-factor authentication (2FA) using TOTP (Google Authenticator)
+* Recovery codes for emergency access
+* Modern and responsive UI (shadcn/ui + Tailwind CSS)
+* Data validation with Zod
+* MongoDB database with Mongoose
 
-2. **Installer les dépendances**
-   ```bash
-   npm install
-   ```
+---
 
-3. **Configuration des variables d'environnement**
-   
-   Créer un fichier `.env.local` à la racine du projet :
-   ```env
-   # Base de données MongoDB
-   MONGODB_URL=mongodb://127.0.0.1:27017/next-js-app
-   
-   # Clé secrète JWT (générer une clé forte)
-   JWT_SECRET=votre_cle_secrete_jwt_tres_longue_et_securisee_ici
-   
-   # Environnement
-   NODE_ENV=development
-   ```
+## Prerequisites
 
-4. **Démarrer MongoDB**
-   
-   Sur Windows :
-   ```powershell
-   net start MongoDB
-   ```
-   
-   Sur macOS/Linux :
-   ```bash
-   sudo systemctl start mongod
-   # ou
-   brew services start mongodb/brew/mongodb-community
-   ```
+* Node.js (v18 or higher)
+* MongoDB (local or cloud)
+* npm or yarn
 
-5. **Lancer l'application**
-   ```bash
-   npm run dev
-   ```
+---
 
-   L'application sera disponible sur [http://localhost:3000](http://localhost:3000)
+## Installation
 
-## 🔧 Résolution des problèmes
+### Clone the Repository
 
-### Erreur `ECONNREFUSED 127.0.0.1:27017`
-
-Cette erreur signifie que MongoDB n'est pas démarré. Solutions :
-
-1. **Vérifier si MongoDB fonctionne :**
-   ```powershell
-   netstat -an | findstr 27017
-   ```
-
-2. **Démarrer MongoDB :**
-   ```powershell
-   net start MongoDB
-   ```
-
-3. **Vérifier le service MongoDB :**
-   ```powershell
-   Get-Service MongoDB
-   ```
-
-### Variables d'environnement manquantes
-
-Assurez-vous que le fichier `.env.local` contient toutes les variables requises et qu'il est à la racine du projet.
-
-### Erreurs de connexion à la base de données
-
-1. Vérifiez que MongoDB est démarré
-2. Vérifiez l'URL de connexion dans `MONGODB_URL`
-3. Redémarrez le serveur de développement après modification des variables d'environnement
-
-## 📁 Structure du projet
-
+```bash
+git clone <repository-url>
+cd my-recovery-app
 ```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Environment Configuration
+
+Create a `.env.local` file at the root:
+
+```env
+MONGODB_URL=mongodb://127.0.0.1:27017/next-js-app
+JWT_SECRET=your_secure_jwt_secret
+NODE_ENV=development
+```
+
+### Start MongoDB
+
+**Windows**
+
+```powershell
+net start MongoDB
+```
+
+**macOS / Linux**
+
+```bash
+sudo systemctl start mongod
+# or
+brew services start mongodb/brew/mongodb-community
+```
+
+### Run the Application
+
+```bash
+npm run dev
+```
+
+Application URL: http://localhost:3000
+
+---
+
+## Project Structure
+
+```id="m0k6zz"
 src/
 ├── app/
-│   ├── (auth)/          # Pages d'authentification
-│   ├── (dashboard)/     # Pages du tableau de bord
-│   └── api/            # Routes API
+│   ├── (auth)/          
+│   ├── (dashboard)/     
+│   └── api/            
 ├── components/
-│   ├── forms/          # Composants de formulaires
-│   ├── modals/         # Composants modaux
-│   ├── sections/       # Sections de page
-│   └── ui/            # Composants UI (shadcn)
+│   ├── forms/          
+│   ├── modals/         
+│   ├── sections/       
+│   └── ui/            
 ├── lib/
-│   ├── actions/        # Actions serveur
-│   ├── database/       # Configuration et modèles MongoDB
-│   ├── utils.ts        # Utilitaires
-│   └── validations.ts  # Schémas de validation Zod
-└── types/              # Types TypeScript
+│   ├── actions/        
+│   ├── database/       
+│   ├── utils.ts        
+│   └── validations.ts  
+└── types/              
 ```
 
-## 🔐 Sécurité
+---
 
-### Authentification à deux facteurs (2FA)
+## Security
 
-1. L'utilisateur active la 2FA depuis son tableau de bord
-2. Un QR code est généré pour Google Authenticator
-3. L'utilisateur scanne le code et confirme avec un token TOTP
-4. La 2FA est obligatoire pour les connexions futures
+### Two-Factor Authentication (2FA)
 
-### Codes de récupération
+* TOTP-based authentication using Google Authenticator
+* QR code setup and token verification
+* Mandatory verification for future logins
 
-- 16 codes uniques générés automatiquement
-- Utilisables une seule fois
-- Permettent l'accès en cas de perte du dispositif 2FA
-- Stockés de manière sécurisée en base de données
+### Recovery Codes
 
-### Sécurisation des mots de passe
+* 16 unique, single-use codes
+* Securely stored in the database
+* Used when 2FA device is unavailable
 
-- Hachage avec bcrypt (10 rounds)
-- Validation de force minimale (8 caractères)
-- Pas de stockage en clair
+### Password Security
 
-## 📊 API Routes
+* Password hashing with bcrypt
+* Minimum strength validation
+* No plaintext storage
 
-### Authentification
-- `POST /api/register` - Inscription d'un nouvel utilisateur
-- `POST /api/login` - Connexion utilisateur
-- `GET /api/profile` - Profil utilisateur (authentifié)
+---
 
-### 2FA
-- `POST /api/twofa` - Générer une clé 2FA
-- `PUT /api/twofa` - Vérifier et activer la 2FA
-- `GET /api/twofa` - Statut 2FA de l'utilisateur
-- `DELETE /api/twofa` - Désactiver la 2FA
-- `POST /api/twofa-by-email` - Récupérer le statut 2FA par email
-- `PUT /api/twofa-by-email` - Vérifier un token 2FA par email
+## API Routes
 
-### Codes de récupération
-- `POST /api/recovery-codes` - Générer de nouveaux codes
-- `GET /api/recovery-codes` - Lister les codes utilisateur
-- `PUT /api/recovery-codes` - Vérifier un code de récupération
+### Authentication
 
-## 🧪 Tests
+* POST `/api/register`
+* POST `/api/login`
+* GET `/api/profile`
 
-Pour tester l'application :
+### Two-Factor Authentication
 
-1. **Inscription** : Créez un compte sur `/register`
-2. **Connexion** : Connectez-vous sur `/login`
-3. **Configuration 2FA** : Activez la 2FA depuis le tableau de bord
-4. **Codes de récupération** : Générez et testez les codes de récupération
+* POST `/api/twofa`
+* PUT `/api/twofa`
+* GET `/api/twofa`
+* DELETE `/api/twofa`
 
-## 🚀 Déploiement
+### Recovery Codes
 
-### Variables d'environnement de production
+* POST `/api/recovery-codes`
+* GET `/api/recovery-codes`
+* PUT `/api/recovery-codes`
+
+---
+
+## Troubleshooting
+
+* Ensure MongoDB is running
+* Verify environment variables
+* Check database connection string
+* Restart the development server after changes
+
+---
+
+## Deployment
+
+### Production Environment Variables
 
 ```env
 MONGODB_URL=mongodb+srv://user:password@cluster.mongodb.net/production
-JWT_SECRET=cle_secrete_production_tres_forte
+JWT_SECRET=strong_production_secret
 NODE_ENV=production
 ```
 
-### Étapes de déploiement
+### Steps
 
-1. Configurez MongoDB Atlas ou une instance MongoDB de production
-2. Définissez les variables d'environnement
-3. Buildez l'application : `npm run build`
-4. Déployez sur Vercel, Netlify, ou votre plateforme préférée
+```bash
+npm run build
+npm start
+```
 
-## 🛡️ Bonnes pratiques de sécurité
+Deploy using platforms such as Vercel or Netlify.
 
-- Changez la clé JWT_SECRET régulièrement
-- Utilisez HTTPS en production
-- Surveillez les tentatives de connexion suspectes
-- Sauvegardez régulièrement la base de données
-- Gardez les dépendances à jour
+---
 
-## 📞 Support
+## Best Practices
 
-En cas de problème, vérifiez :
-1. La console du navigateur pour les erreurs frontend
-2. Les logs du serveur pour les erreurs backend
-3. Le statut de MongoDB
-4. Les variables d'environnement
+* Use HTTPS in production
+* Rotate JWT secrets regularly
+* Monitor authentication attempts
+* Backup the database frequently
+* Keep dependencies updated
+
